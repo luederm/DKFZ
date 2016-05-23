@@ -125,7 +125,9 @@ lines(c(0, h2$time, 13), c(0, 1-h2$surv, max(1-h2$surv)), type="s")
 # Package for Nelson-Aalen estimator
 #install.packages("mvna")
 require("mvna")
-mvna(train3)
+# Create a transition matrix
+tmat <- trans.comprisk(2, names = c("event-free", "1", "2"))
+mvna(train3, c("1", "2"), tmat, "cens")
 
 
 
