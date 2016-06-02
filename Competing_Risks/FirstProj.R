@@ -116,22 +116,91 @@ plot(cause1_km, main="Cause 1 Only, KM Plot", xlab="t", ylab="Survival")
 cause2_km = survfit(Surv(time, status == 2) ~ 1, type="kaplan-meier", data = subset(train3, (status == 2 | status == 0)))
 plot(cause2_km, main="Cause 2 Only, KM Plot", xlab="t", ylab="Survival")
 
-# Now plot them against eachother to expose bias
-h1 <- data.frame(time = cause1_km$time, surv = cause1_km$surv)
-h2 <- data.frame(time = cause2_km$time, surv = cause2_km$surv)
-plot( c(0, h1$time, 13), c(1, h1$surv, 0), type="s", xlab="Years from HIV infection", ylab="Probability")
-lines(c(0, h2$time, 13), c(0, 1-h2$surv, max(1-h2$surv)), type="s")
-
+# 2) Nelson-Aalen estimator for the competing risks model
 # Package for Nelson-Aalen estimator
 #install.packages("mvna")
 require("mvna")
+
 # Create a transition matrix
-tmat <- trans.comprisk(2, names = c("event-free", "1", "2"))
-mvna(train3, c("1", "2"), tmat, "cens")
+tmat = matrix( c(F,F, F, T, F, F, T, F, F), nrow=3, ncol=3) 
+
+# Call mvna function 
+NA_est = mvna(train3, c("0", "1", "2"), tmat, "cens")
+summary(NA_est)
+
+# plot
+plot(NA_est)
+
+# 3) Cumulative incidence functions / empirical transition matrix (Aalen-Johansen estimator)
+#install.packages("etm")
+require("etm")
+
+AJ_est = etm(train3, c("0", "1", "2"), tmat, "cens", 0)
+summary(AJ_est)
+
+# Plot
+require("lattice")
+xyplot(AJ_est, tr.choice=c("0 0", "0 1", "0 2"), layout=c(1, 3), strip=strip.custom(bg="white", 
+      factor.levels= c("0 to 0", "0 to 1", "0 to 2")))
+
+# Can also be done with the prodlim package
+#install.packages("prodlim")
+require("prodlim")
+
+crFit <- prodlim(Hist(time,status)~1,data=train3)
+summary(crFit)
+plot(crFit, cause=1)
+plot(crFit,cause=2)
+
+# The prodlim return object is implemented in pec
+predictionError = pec(object = crFit, 
+                      formula = Hist(time, status) ~ 1, data = train3,
+                      splitMethod = "BootCv", B = 10)
+plot(predictionError)
+# Q: Should we use Hist for left side of formula?
+
+# 4) Fit cause-specific cox ph models using the first 10 variables. Interpret.
+#install.packages("mstate")
+require("mstate")
+#install.packages("riskRegression")
+require("riskRegression")
+
+# Use Hist rather than Surv: Hist provides the suitable extensions for dealing with right censored and 
+#   interval censored data from competing risks and other multi state models.
+# CSC: Cause-specific Cox proportional hazard regression
+#   First argument is a list of formulae, one for each cause, each specifying a cause-specific Cox regression model
+#   "survtype" is either 'survival' or 'hazard'
+#     If "hazard" fit cause-specific Cox regression models for all causes.
+#     If "survival" fit one cause-specific Cox regression model for the cause of interest and also a 
+#       Cox regression model for event-free survival.
+f10Form <- as.formula(paste("Hist(time, status) ~", paste(colnames(train3[,6:15]), collapse=" + "))) # Build formula
+cscFit1 <- CSC(list(f10Form, f10Form), data=train3, cause="1", survtype="hazard")
+cscFit1
+
+# Compare to regular coxph function w/ competing cause being treated as censored
+f10FormReg <- as.formula(paste("Surv(time, status==1) ~", paste(colnames(train3[,6:15]), collapse=" + "))) 
+cphFitCH = coxph(f10FormReg, data = train3)
+cphFitCH
+
+ # 5) fit cause-specific lasso models using all variables (again via cross validation, 
+#    variables X1 and X2 are mandatory variables, should not be penalised).
+
+# First argument is response variable (Surv object)
+# Second argument are the covariates to be penalized (can be specified as formula or matrix)
+# Third argument are the covariates which you do not want to have penalized (also as formuala/matrix)
+# This function uses lambda1 for lasso, and lambda2 for L2 penalty 
+
+# X1 and X2 do not exist, treating c1 and c2 as manditory variables instead
+lassoFit = optL1(Surv(time, status==1), train3[,8:411], train3[,6:7], data=train3, model="cox")
+# Print lambda
+lassoFit$lambda
+# Print Coefficients
+coefficients(lassoFit$fullfit)
+
+lassoFit2 = optL1(Surv(time, status==2), train3[,8:411], train3[,6:7], data=train3, model="cox")
+# Print lambda
+lassoFit2$lambda
+# Print Coefficients
+coefficients(lassoFit2$fullfit)
 
 
-
-
-
-
- 

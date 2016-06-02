@@ -1,0 +1,21 @@
+Platform Type	Center	Platform	Level	Sample	Barcode	File Name
+METADATA	WUSM	HG-U133_Plus_2	n/a	selected_samples	N/A	genome.wustl.edu_LAML.HG-U133_Plus_2.2.idf.txt
+METADATA	WUSM	HG-U133_Plus_2	n/a	selected_samples	N/A	genome.wustl.edu_LAML.HG-U133_Plus_2.2.sdrf.txt
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2827-03	TCGA-AB-2827-03A-01R-0757-21	TCGA-AB-2827-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2828-03	TCGA-AB-2828-03A-01R-0757-21	TCGA-AB-2828-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2829-03	TCGA-AB-2829-03A-01R-0757-21	TCGA-AB-2829-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2830-03	TCGA-AB-2830-03A-01R-0757-21	TCGA-AB-2830-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2831-03	TCGA-AB-2831-03A-01R-0757-21	TCGA-AB-2831-03A-01R-0757-21.CEL.README
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2832-03	TCGA-AB-2832-03A-01R-0757-21	TCGA-AB-2832-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2833-03	TCGA-AB-2833-03A-01R-0757-21	TCGA-AB-2833-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2834-03	TCGA-AB-2834-03A-01R-0757-21	TCGA-AB-2834-03A-01R-0757-21.CEL.README
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2835-03	TCGA-AB-2835-03A-01R-0757-21	TCGA-AB-2835-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2836-03	TCGA-AB-2836-03A-01R-0757-21	TCGA-AB-2836-03A-01R-0757-21.CEL
+Expression-Genes	WUSM	HG-U133_Plus_2	1	TCGA-AB-2837-03	TCGA-AB-2837-03A-01R-0757-21	TCGA-AB-2837-03A-01R-0757-21.CEL
+Clinical	Biotab	n/a	n/a	selected_samples	N/A	nationwidechildrens.org_biospecimen_aliquot_laml.txt
+Clinical	Biotab	n/a	n/a	selected_samples	N/A	nationwidechildrens.org_biospecimen_analyte_laml.txt
+Clinical	Biotab	n/a	n/a	selected_samples	N/A	nationwidechildrens.org_biospecimen_diagnostic_slides_laml.txt
+Clinical	Biotab	n/a	n/a	selected_samples	N/A	nationwidechildrens.org_biospecimen_portion_laml.txt
+Clinical	Biotab	n/a	n/a	selected_samples	N/A	nationwidechildrens.org_biospecimen_protocol_laml.txt
+Clinical	Biotab	n/a	n/a	selected_samples	N/A	nationwidechildrens.org_biospecimen_sample_laml.txt
+Clinical	Biotab	n/a	n/a	selected_samples	N/A	nationwidechildrens.org_clinical_patient_laml.txt
